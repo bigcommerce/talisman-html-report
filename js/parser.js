@@ -44,7 +44,7 @@ $(document).ready(function() {
         table_det =
           "<table class='lightbox-err'><tr><th style='font-weight: bold'>Serial Number</th><th style='font-weight: bold'>Git Commmit SHA</th></tr>";
         for (var row_num = 0; row_num < data.length; row_num++) {
-          filename = data[row_num].filename;
+          filename = data[row_num].filename.split("/").pop();;
           totalErrors = data[row_num].failure_list.length;
           totalWarnings = data[row_num].warning_list == null ? "No Warnings" : data[row_num].warning_list.length;
 
