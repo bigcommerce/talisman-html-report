@@ -30,6 +30,10 @@ $(document).ready(function() {
     var commitIDs;
 
     var detailedFailures = jd.results;
+    // filter out failures that have an empty array for failure_list or warning_list
+    detailedFailures = detailedFailures.filter(function(failure) {
+      return failure.failure_list.length > 0 || failure.warning_list.length > 0;
+    });
 
     var totalRecords = detailedFailures.length;
     var pageSize = 5;
@@ -44,13 +48,14 @@ $(document).ready(function() {
         table_det =
           "<table class='lightbox-err'><tr><th style='font-weight: bold'>Serial Number</th><th style='font-weight: bold'>Git Commmit SHA</th></tr>";
         for (var row_num = 0; row_num < data.length; row_num++) {
-          filename = data[row_num].filename.split("/").pop();;
+          filename = data[row_num].filename;
+          const shortened = filename.split("/").pop();
           totalErrors = data[row_num].failure_list.length;
           totalWarnings = data[row_num].warning_list == null ? "No Warnings" : data[row_num].warning_list.length;
 
           $(".limiter tbody").append(
             '<tr class="row100" id="' + filename +
-              '"><td class="column100 column1" data-column="column1">' + filename +
+              '"><td class="column100 column1" data-column="column1">' + shortened +
               '</td><td class="column100 column2" data-column="column2"><a href="#summary">' + totalErrors +
               '</a></td><td class="column100 column3" data-column="column3">' + totalWarnings +
               "</td></tr>"
